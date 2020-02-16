@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry_go/blocs/machine/machine_bloc.dart';
+import 'package:laundry_go/models/machine.dart';
 import 'package:laundry_go/providers/theme.dart';
+import 'package:laundry_go/repositories/machine_repository.dart';
+import 'package:time_formatter/time_formatter.dart';
+import 'dart:async';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({
@@ -12,7 +18,19 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  Completer<void> _refreshCompleter;
   Color doorCardColor = CupertinoColors.activeOrange;
+  MachineRepository machineRepository = MachineRepository();
+  MachineBloc machineBloc;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    machineBloc = MachineBloc(machineRepository: machineRepository);
+    _refreshCompleter = Completer<void>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,54 +96,98 @@ class _HomeTabState extends State<HomeTab> {
         Container(
           margin: EdgeInsets.only(top: height * 0.42),
           padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: <Widget>[
-              doorCard(height, width),
-              // mailCard(height, width, _user)
-            ],
+          child: BlocProvider<MachineBloc>(
+            create: (context) => machineBloc..add(MachinePreparing()),
+            child: BlocListener<MachineBloc, MachineState>(
+              listener: (context, state) {
+                if (state is MachineLoaded) {
+                  _refreshCompleter?.complete();
+                  _refreshCompleter = Completer();
+                }
+              },
+              child: BlocBuilder<MachineBloc, MachineState>(
+                builder: (context, state) {
+                  if (state is MachineLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is MachineLoaded) {
+                    return RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      onRefresh: () {
+                        machineBloc.add(MachineRefresh());
+                        return _refreshCompleter.future;
+                      },
+                      child: ListView.builder(
+                        itemCount: state.machines.length,
+                        itemBuilder: (context, index) {
+                          Machine machine = state.machines[index];
+                          return Card(
+                            child: ListTile(
+                              title: Text(machine.id),
+                              subtitle: Text(
+                                  formatTime(machine.timestampStart * 1000)),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                    // return: Column(
+                    //   children: <Widget>[
+                    //     doorCard(height, width),
+                    //     // mailCard(height, width, _user)
+                    //   ],
+                    // );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 
-  void _showDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'Oppsss...',
-              style: TextStyle(fontSize: 30),
-            ),
-            content: Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  Text(
-                    'There are something with your SiMBOX.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Please contact KoolBox Intelligent (M) Pvt. Ltd. for more infomation.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: 15),
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Close"),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          );
-        });
-  }
+  // void _showDialog() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text(
+  //             'Oppsss...',
+  //             style: TextStyle(fontSize: 30),
+  //           ),
+  //           content: Container(
+  //             height: MediaQuery.of(context).size.height * 0.2,
+  //             child: Column(
+  //               children: <Widget>[
+  //                 SizedBox(height: 10),
+  //                 Text(
+  //                   'There are something with your SiMBOX.',
+  //                   textAlign: TextAlign.center,
+  //                   style: TextStyle(fontSize: 20),
+  //                 ),
+  //                 SizedBox(height: 20),
+  //                 Text(
+  //                   'Please contact KoolBox Intelligent (M) Pvt. Ltd. for more infomation.',
+  //                   textAlign: TextAlign.center,
+  //                   style: TextStyle(color: Colors.grey, fontSize: 15),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text("Close"),
+  //               onPressed: () => Navigator.of(context).pop(),
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
 
   Card doorCard(double height, double width) {
     return Card(
@@ -138,7 +200,7 @@ class _HomeTabState extends State<HomeTab> {
       elevation: 10,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed('/doorScreen');
+          Navigator.of(context).pushNamed('/statusScreen');
           // if (_doorStatus == 'Unknown') {
           //   _showDialog();
           // } else {
