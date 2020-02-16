@@ -59,13 +59,13 @@ class App extends StatelessWidget {
           },
         ),
       ),
-      // routes: <String, WidgetBuilder>{
-      //   '/loginScreen': (BuildContext context) => BlocProvider<LoginBloc>(
-      //         create: (context) => LoginBloc(userRepository: _userRepository),
-      //         child: LoginScreen(userRepository: _userRepository),
-      //       ),
-      //   '/statusScreen': (BuildContext context) => StatusScreen(),
-      // },
+      routes: <String, WidgetBuilder>{
+        '/loginScreen': (BuildContext context) => BlocProvider<LoginBloc>(
+              create: (context) => LoginBloc(userRepository: _userRepository),
+              child: LoginScreen(userRepository: _userRepository),
+            ),
+        '/statusScreen': (BuildContext context) => StatusScreen(),
+      },
     );
   }
 }

@@ -8,7 +8,6 @@ class User {
 
   User(
       {String uid,
-      String email,
       String name,
       int studentId
       })
