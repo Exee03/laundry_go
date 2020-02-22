@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +7,6 @@ import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:laundry_go/blocs/authentication/authentication_bloc.dart';
 import 'package:laundry_go/blocs/machine/machine_bloc.dart';
 import 'package:laundry_go/blocs/washing/washing_bloc.dart';
-import 'package:laundry_go/entities/entities.dart';
-import 'package:laundry_go/models/machine.dart';
 import 'package:laundry_go/models/user.dart';
 import 'package:laundry_go/private/screens/home.dart';
 import 'package:laundry_go/blocs/app/app_bloc.dart';
