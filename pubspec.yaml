@@ -31,6 +31,14 @@ dependencies:
   equatable: ^1.0.2
   flutter_bloc: ^3.2.0
   time_formatter: ^1.0.0
+  flutter_inner_drawer: "^0.5.4"
+  flutter_icons: ^1.0.0+1
+  circular_countdown: ^0.1.0
+  countdown_flutter: ^0.1.1
+  qr_mobile_vision: ^0.3.1
+  sleek_circular_slider: ^1.0.7
+  flare_flutter: ^2.0.1
+  firebase_messaging: ^6.0.9
   
 dev_dependencies:
   flutter_test:
@@ -40,7 +48,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon" 
   ios: true
-  image_path: "assets/icon.png"
+  image_path: "assets/icon(white).png"
 
 
 # For information on the generic Dart part of this file, see the

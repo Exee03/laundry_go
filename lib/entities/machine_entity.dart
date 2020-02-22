@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 class MachineEntity extends Equatable {
   final String id;
+  final String user;
   final bool isDoorOpened;
   final bool isUsed;
   final int timestampStart;
@@ -11,6 +12,7 @@ class MachineEntity extends Equatable {
 
   const MachineEntity(
     this.id,
+    this.user,
     this.isDoorOpened,
     this.isUsed,
     this.timestampStart,
@@ -20,6 +22,7 @@ class MachineEntity extends Equatable {
   Map<String, Object> toJson() {
     return {
       "id": id,
+      "user": user,
       "isDoorOpened": isDoorOpened,
       "isUsed": isUsed,
       "timestampStart": timestampStart,
@@ -30,6 +33,7 @@ class MachineEntity extends Equatable {
   @override
   List<Object> get props => [
         id,
+        user,
         isDoorOpened,
         isUsed,
         timestampStart,
@@ -44,6 +48,7 @@ class MachineEntity extends Equatable {
   static MachineEntity fromJson(Map<String, Object> json) {
     return MachineEntity(
       json["id"] as String,
+      json["user"] as String,
       json["isDoorOpened"] as bool,
       json["isUsed"] as bool,
       json["timestampStart"] as int,
@@ -54,6 +59,7 @@ class MachineEntity extends Equatable {
   static MachineEntity fromMap(Map<dynamic, dynamic> map) {
     return MachineEntity(
       map["id"] as String,
+      map["user"] as String,
       map["isDoorOpened"] as bool,
       map["isUsed"] as bool,
       map["timestampStart"] as int,
@@ -64,6 +70,7 @@ class MachineEntity extends Equatable {
   static MachineEntity fromSnapshot(DocumentSnapshot snap) {
     return MachineEntity(
       snap.data['id'],
+      snap.data['user'],
       snap.data['isDoorOpened'],
       snap.data['isUsed'],
       snap.data['timestampStart'],
@@ -74,6 +81,7 @@ class MachineEntity extends Equatable {
   static MachineEntity fromDataSnapshot(DataSnapshot snap) {
     return MachineEntity(
       snap.value['id'],
+      snap.value['user'],
       snap.value['isDoorOpened'],
       snap.value['isUsed'],
       snap.value['timestampStart'],
@@ -84,6 +92,7 @@ class MachineEntity extends Equatable {
   Map<String, Object> toDocument() {
     return {
       "id": id,
+      "user": user,
       "isDoorOpened": isDoorOpened,
       "isUsed": isUsed,
       "timestampStart": timestampStart,

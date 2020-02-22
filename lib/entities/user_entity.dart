@@ -5,11 +5,13 @@ class UserEntity extends Equatable {
   final String uid;
   final String name;
   final int studentId;
+  final String token;
 
   const UserEntity(
     this.uid,
     this.name,
     this.studentId,
+    this.token,
   );
 
   Map<String, Object> toJson() {
@@ -17,6 +19,7 @@ class UserEntity extends Equatable {
       "uid": uid,
       "name": name,
       "studentId": studentId,
+      "token": token,
     };
   }
 
@@ -25,6 +28,7 @@ class UserEntity extends Equatable {
         uid,
         name,
         studentId,
+        token,
       ];
 
   @override
@@ -37,6 +41,7 @@ class UserEntity extends Equatable {
       json["uid"] as String,
       json["name"] as String,
       json["studentId"] as int,
+      json["token"] as String,
     );
   }
 
@@ -45,6 +50,7 @@ class UserEntity extends Equatable {
       snap.data['uid'],
       snap.data['name'],
       snap.data['studentId'],
+      snap.data['token'],
     );
   }
 
@@ -53,6 +59,7 @@ class UserEntity extends Equatable {
       "uid": uid,
       "name": name,
       "studentId": studentId,
+      "token": token,
     };
   }
 }

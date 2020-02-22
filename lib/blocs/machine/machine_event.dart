@@ -8,13 +8,23 @@ abstract class MachineEvent extends Equatable {
 
 class MachinePreparing extends MachineEvent {}
 
-class MachineUpdated extends MachineEvent {
+class MachineListUpdated extends MachineEvent {
   final List<Machine> machines;
 
-  const MachineUpdated(this.machines);
+  const MachineListUpdated(this.machines);
 
   @override
   List<Object> get props => [machines];
 }
 
 class MachineRefresh extends MachineEvent {}
+
+class MachineOnError extends MachineEvent {
+  final DatabaseError error;
+  
+  const MachineOnError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+

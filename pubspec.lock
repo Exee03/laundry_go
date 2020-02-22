@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  circular_countdown:
+    dependency: "direct main"
+    description:
+      name: circular_countdown
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -85,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  countdown_flutter:
+    dependency: "direct main"
+    description:
+      name: countdown_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   crypto:
     dependency: transitive
     description:
@@ -169,6 +183,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.9"
+  flare_dart:
+    dependency: transitive
+    description:
+      name: flare_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.3"
+  flare_flutter:
+    dependency: "direct main"
+    description:
+      name: flare_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -181,6 +216,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0"
+  flutter_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+1"
+  flutter_inner_drawer:
+    dependency: "direct main"
+    description:
+      name: flutter_inner_drawer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.4"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -240,6 +289,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.8"
+  native_device_orientation:
+    dependency: transitive
+    description:
+      name: native_device_orientation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   nested:
     dependency: transitive
     description:
@@ -268,6 +324,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  platform:
+    dependency: transitive
+    description:
+      name: platform
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.1"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -282,6 +345,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
+  qr_mobile_vision:
+    dependency: "direct main"
+    description:
+      name: qr_mobile_vision
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
   quiver:
     dependency: transitive
     description:
@@ -301,6 +371,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sleek_circular_slider:
+    dependency: "direct main"
+    description:
+      name: sleek_circular_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   source_span:
     dependency: transitive
     description:

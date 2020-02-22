@@ -54,6 +54,7 @@ class UserRepository {
 
   void saveUserData(User user) async {
     DocumentReference ref = _firestore.collection('users').document(user.uid);
+    _user = user;
     return ref.setData(user.toEntity().toDocument(), merge: true);
     // return ref.setData({
     //   'uid': user.uid,

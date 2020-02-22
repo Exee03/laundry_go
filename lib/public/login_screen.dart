@@ -3,16 +3,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry_go/blocs/authentication/authentication_bloc.dart';
 import 'package:laundry_go/blocs/login/login_bloc.dart';
-import 'package:laundry_go/repositories/user_repository.dart';
 import 'package:laundry_go/providers/theme.dart';
 
 class LoginScreen extends StatefulWidget {
-  final UserRepository _userRepository;
-
-  LoginScreen({Key key, @required UserRepository userRepository})
-      : assert(userRepository != null),
-        _userRepository = userRepository,
-        super(key: key);
+  LoginScreen({Key key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -20,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  // String _email, _password, _name;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _studentIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -28,8 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
       TextEditingController();
 
   LoginBloc _loginBloc;
-
-  UserRepository get _userRepository => widget._userRepository;
 
   bool get isLoginPopulated =>
       _studentIdController.text.isNotEmpty &&
@@ -80,12 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // void _onPasswordChanged() {
-  //   _loginBloc.add(
-  //     PasswordChanged(password: _passwordController.text),
-  //   );
-  // }
-
   void _onConfirmPasswordChanged() {
     _loginBloc.add(
       ConfirmPasswordChanged(
@@ -126,27 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  // void submit() async {
-  //   final form = formKey.currentState;
-  //   form.save();
-  //   BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
-  //   // try {
-  //   //   final auth = Provider.of(context).auth;
-  //   //   if (authFormType == AuthFormType.signIn) {
-  //   //     String uid = await auth.signInWithEmailAndPassword(_email, _password);
-  //   //     print("Signed In with ID $uid");
-  //   //     Navigator.of(context).pushReplacementNamed('/home');
-  //   //   } else {
-  //   //     String uid =
-  //   //         await auth.createUserWithEmailAndPassword(_email, _password, _name);
-  //   //     print("Signed up with New ID $uid");
-  //   //     Navigator.of(context).pushReplacementNamed('/home');
-  //   //   }
-  //   // } catch (e) {
-  //   //   print(e);
-  //   // }
-  // }
 
   @override
   Widget build(BuildContext context) {

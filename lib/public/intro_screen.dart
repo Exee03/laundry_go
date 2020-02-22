@@ -75,7 +75,7 @@ class IntroScreen extends StatelessWidget {
                               create: (context) =>
                                   LoginBloc(userRepository: _userRepository),
                               child:
-                                  LoginScreen(userRepository: _userRepository),
+                                  LoginScreen(),
                             );
                           }),
                         )),

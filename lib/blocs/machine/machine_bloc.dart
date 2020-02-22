@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:laundry_go/entities/machine_entity.dart';
 import 'package:laundry_go/models/machine.dart';
+import 'package:laundry_go/models/user.dart';
 import 'package:laundry_go/repositories/machine_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -13,12 +14,14 @@ part 'machine_state.dart';
 
 class MachineBloc extends Bloc<MachineEvent, MachineState> {
   final MachineRepository _machineRepository;
+  final User _user;
   List<Machine> _machines = [];
   StreamSubscription _streamSubscription;
 
-  MachineBloc({@required MachineRepository machineRepository})
-      : assert(machineRepository != null),
-        _machineRepository = machineRepository;
+  MachineBloc({@required MachineRepository machineRepository, @required User user})
+      : assert(machineRepository != null, user != null),
+        _machineRepository = machineRepository,
+        _user = user;
 
   List<Machine> get machines => _machines;
 
@@ -33,8 +36,10 @@ class MachineBloc extends Bloc<MachineEvent, MachineState> {
       yield* _mapMachinePreparingToState();
     } else if (event is MachineRefresh) {
       yield* _mapMachineRefreshToState();
-    } else if (event is MachineUpdated) {
+    } else if (event is MachineListUpdated) {
       yield* _mapMachineUpdatedToState(event.machines);
+    } else if (event is MachineOnError) {
+      yield* _mapMachineOnErrorToState();
     }
   }
 
@@ -53,14 +58,26 @@ class MachineBloc extends Bloc<MachineEvent, MachineState> {
   }
 
   Stream<MachineState> _mapMachineRefreshToState() async* {
-    _streamSubscription?.cancel();
-    _streamSubscription =
-        _machineRepository.listMachines().listen((Event event) {
-      _machines.clear();
-      Map data = event.snapshot.value;
-      data.forEach((index, data) =>
-          _machines.add(Machine.fromEntity(MachineEntity.fromMap(data))));
-      add(MachineUpdated(_machines));
-    });
+    try {
+      _streamSubscription?.cancel();
+      _streamSubscription =
+          _machineRepository.listMachines().listen((Event event) {
+        _machines.clear();
+        Map data = event.snapshot.value;
+        data.forEach((index, data) =>
+            _machines.add(Machine.fromEntity(MachineEntity.fromMap(data))));
+        add(MachineListUpdated(_machines));
+      }, onError: (Object o) {
+        print('on error');
+        add(MachineOnError(o));
+      });
+    } catch (e) {
+      print('errorr!!!');
+      yield MachineError();
+    }
+  }
+
+  Stream<MachineState> _mapMachineOnErrorToState() async* {
+    yield MachineError();
   }
 }

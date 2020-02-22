@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:laundry_go/models/user.dart';
 import 'package:laundry_go/repositories/user_repository.dart';
 import 'package:meta/meta.dart';
@@ -9,8 +11,11 @@ import 'package:meta/meta.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  StreamSubscription iosSubscription;
 
   AuthenticationBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
@@ -32,12 +37,33 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
+  Future<String> _getToken() async {
+    return await _fcm.getToken();
+  }
+
+  void saveToken(String token) {
+    _userRepository.saveUserData(_userRepository.user.copyWith(token: token));
+  }
+
+  void getTokenSetup() async {
+    if (Platform.isIOS) {
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) async {
+        // save the token  OR subscribe to a topic here
+        saveToken(await _getToken());
+      });
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    } else {
+      saveToken(await _getToken());
+    }
+  }
+
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
       final isSignedIn = await _userRepository.isSignedIn();
       if (isSignedIn) {
         User user = await _getUserData();
-        yield Authenticated(user.name);
+        (user.token == '') ? getTokenSetup() : null;
+        yield Authenticated(user);
       } else {
         yield Unauthenticated();
       }
@@ -47,7 +73,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield Authenticated((await _userRepository.getCurrentUser()).name);
+    final user = await _userRepository.getCurrentUser();
+    (user.token == '') ? getTokenSetup() : null;
+    yield Authenticated(user);
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {

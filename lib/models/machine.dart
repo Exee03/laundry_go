@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Machine {
   final String id;
+  final String user;
   final bool isDoorOpened;
   final bool isUsed;
   final int timestampStart;
@@ -11,14 +12,16 @@ class Machine {
 
   Machine({
     String id,
+    String user,
     bool isDoorOpened,
     bool isUsed,
     int timestampStart,
     int duration,
   })  : this.id = id ?? '',
+        this.user = user ?? '',
         this.isDoorOpened = isDoorOpened ?? false,
         this.isUsed = isUsed ?? false,
-        this.timestampStart = timestampStart ?? Timestamp.now(),
+        this.timestampStart = timestampStart ?? Timestamp.now().millisecondsSinceEpoch,
         this.duration = duration ?? 0;
 
   // Machine.fromSnapshot(DocumentSnapshot data)
@@ -33,6 +36,7 @@ class Machine {
   Machine.fromDataSnapshot(DataSnapshot data)
       : this(
           id: data.value['id'],
+          user: data.value['user'],
           isDoorOpened: data.value['isDoorOpened'],
           isUsed: data.value['isUsed'],
           timestampStart: data.value['timestampStart'],
@@ -41,6 +45,7 @@ class Machine {
 
   Machine copyWith({
     String id,
+    String user,
     bool isDoorOpened,
     bool isUsed,
     int timestampStart,
@@ -48,6 +53,7 @@ class Machine {
   }) {
     return Machine(
       id: id ?? this.id,
+      user: user ?? this.user,
       isDoorOpened: isDoorOpened ?? this.isDoorOpened,
       isUsed: isUsed ?? this.isUsed,
       timestampStart: timestampStart ?? this.timestampStart,
@@ -56,7 +62,13 @@ class Machine {
   }
 
   @override
-  int get hashCode => id.hashCode ^ isDoorOpened.hashCode ^ isUsed.hashCode ^ timestampStart.hashCode ^ duration.hashCode;
+  int get hashCode =>
+      id.hashCode ^
+      user.hashCode ^
+      isDoorOpened.hashCode ^
+      isUsed.hashCode ^
+      timestampStart.hashCode ^
+      duration.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -64,6 +76,7 @@ class Machine {
       other is Machine &&
           runtimeType == other.runtimeType &&
           id == other.id &&
+          user == other.user &&
           isDoorOpened == other.isDoorOpened &&
           isUsed == other.isUsed &&
           timestampStart == other.timestampStart &&
@@ -71,16 +84,17 @@ class Machine {
 
   @override
   String toString() {
-    return 'Machine { id: $id }';
+    return 'Machine { id: $id, user: $user, isDoorOpened: $isDoorOpened, isUsed: $isUsed, timestampStart: $timestampStart, duration: $duration }';
   }
 
   MachineEntity toEntity() {
-    return MachineEntity(id, isDoorOpened, isUsed, timestampStart, duration);
+    return MachineEntity(id, user, isDoorOpened, isUsed, timestampStart, duration);
   }
 
   static Machine fromEntity(MachineEntity entity) {
     return Machine(
       id: entity.id,
+      user: entity.user,
       isDoorOpened: entity.isDoorOpened,
       isUsed: entity.isUsed,
       timestampStart: entity.timestampStart,

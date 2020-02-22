@@ -6,8 +6,7 @@ abstract class MachineState {
   List<Object> get props => [];
 }
 
-class MachineLoading extends MachineState {
-}
+class MachineLoading extends MachineState {}
 
 class MachineLoaded extends MachineState {
   final List<Machine> machines;
@@ -20,3 +19,9 @@ class MachineLoaded extends MachineState {
   @override
   String toString() => 'MachineLoaded { machines: $machines }';
 }
+
+class MachineError extends MachineState {}
+
+class MachineUpdated extends MachineState {}
+
+
