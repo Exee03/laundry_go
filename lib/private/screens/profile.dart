@@ -22,20 +22,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // CircleAvatar(
-          //   backgroundColor: Colors.white,
-          //   radius: width * 0.2,
-          //   backgroundImage: NetworkImage(snapshot.data.photoUrl),
-          // ),
-          SizedBox(height: 30),
-          Text(widget.user.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25)),
-          SizedBox(height: 10),
-          Text(widget.user.studentId.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25)),
-          SizedBox(height: 20),
+          Expanded(
+            flex: 2,
+            child: SizedBox(
+              child: Image.asset('assets/icon-logo.png'),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 30),
+                  Text(widget.user.name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 30)),
+                  SizedBox(height: 10),
+                  Text(widget.user.studentId.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 25)),
+                ],
+              ),
+            ),
+          ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: height * 0.1),
             width: width * 0.5,
@@ -51,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // onPressed: () => auth.signOut(),
             ),
           ),
+          SizedBox(height: 50),
         ],
       ),
     );

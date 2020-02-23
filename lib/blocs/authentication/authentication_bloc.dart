@@ -43,6 +43,7 @@ class AuthenticationBloc
 
   void saveToken(String token) {
     _userRepository.saveUserData(_userRepository.user.copyWith(token: token));
+    // iosSubscription.cancel();
   }
 
   void getTokenSetup() async {

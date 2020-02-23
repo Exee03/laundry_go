@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _AppScreenState extends State<AppScreen> {
   InnerDrawerDirection _direction = InnerDrawerDirection.start;
   MachineBloc machineBloc;
   MachineRepository machineRepository = MachineRepository();
+  bool received = false;
 
   @override
   void initState() {
@@ -49,61 +51,60 @@ class _AppScreenState extends State<AppScreen> {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
+        final title = message['notification']['title'];
+        final subTitle = message['notification']['body'];
+        if (!received) {
+          received = true;
+          showDialog(
+            context: context,
+            builder: (context) => showNotification(title, subTitle, context),
+          );
+        }
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        // TODO optional
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
+        if (!received) {
+          received = true;
+          showDialog(
+            context: context,
+            builder: (context) => showNotification('Washing is done!',
+                'Please unload your clothes from washing machine.', context),
+          );
+        }
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        // TODO optional
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
+        if (!received) {
+          received = true;
+          showDialog(
+            context: context,
+            builder: (context) => showNotification('Washing is done!',
+                'Please unload your clothes from washing machine.', context),
+          );
+        }
       },
+    );
+  }
+
+  AlertDialog showNotification(
+    title,
+    subTitle,
+    BuildContext context,
+  ) {
+    return AlertDialog(
+      content: ListTile(
+        title: Text(title),
+        subtitle: Text(subTitle),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Ok'),
+          onPressed: () {
+            received = false;
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
