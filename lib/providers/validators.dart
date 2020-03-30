@@ -4,7 +4,7 @@ class Validators {
   );
 
   static final RegExp _studentIdRegExp = RegExp(
-    r'^20?[0-9]{9}$',
+    r'^[0-9]{11}$',
   );
 
   static final RegExp _passwordRegExp = RegExp(

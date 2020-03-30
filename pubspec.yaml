@@ -25,8 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   custom_splash: ^0.0.2
   firebase_auth: ^0.15.4
-  cloud_firestore: ^0.13.2+1
-  firebase_database: ^3.1.1
+  cloud_firestore: 0.13.2+1
+  firebase_database: 3.1.1
   auto_size_text: ^2.1.0
   equatable: ^1.0.2
   flutter_bloc: ^3.2.0
@@ -35,10 +35,10 @@ dependencies:
   flutter_icons: ^1.0.0+1
   circular_countdown: ^0.1.0
   countdown_flutter: ^0.1.1
-  qr_mobile_vision: ^0.3.1
+  qr_mobile_vision: 0.3.1
   sleek_circular_slider: ^1.0.7
   flare_flutter: ^2.0.1
-  firebase_messaging: ^6.0.9
+  firebase_messaging: 6.0.9
   
 dev_dependencies:
   flutter_test:
