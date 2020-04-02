@@ -36,7 +36,7 @@ class _DurationWidgetState extends State<DurationWidget> {
             .textTheme
             .caption
             .copyWith(fontSize: 30, fontStyle: FontStyle.normal),
-        bottomLabelText: 'min',
+        bottomLabelText: 'sec',
         mainLabelStyle: Theme.of(context)
             .textTheme
             .headline

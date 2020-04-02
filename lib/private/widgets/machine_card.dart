@@ -1,6 +1,8 @@
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:laundry_go/blocs/machine/machine_bloc.dart';
 import 'package:laundry_go/models/machine.dart';
 import 'package:laundry_go/models/user.dart';
 import 'package:laundry_go/providers/theme.dart';
@@ -92,6 +94,7 @@ class MachineCard extends StatelessWidget {
                                     Align(
                                       alignment: Alignment.center,
                                       child: CountdownFormatted(
+                                        onFinish: () => BlocProvider.of<MachineBloc>(context).add(MachineRefresh()),
                                         duration:
                                             Duration(milliseconds: remain),
                                         builder: (BuildContext context,

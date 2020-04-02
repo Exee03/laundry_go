@@ -126,10 +126,9 @@ class _HomeScreenState extends State<HomeScreen>
       itemBuilder: (context, index) {
         Machine machine = state.machines[index];
         String lastUsed = formatTime(
-            (machine.timestampStart * 1000) + (machine.duration ~/ 60000));
+            (machine.timestampStart * 1000) + (machine.duration ~/ 1000));
         int now = Timestamp.now().millisecondsSinceEpoch;
-        int remain =
-            (machine.duration * 60000) - (now - machine.timestampStart);
+        int remain = (machine.duration * 1000) - (now - machine.timestampStart);
         return InkWell(
           onTap: () => ((machine.user == widget.user.uid) && machine.isUsed)
               ? (remain < 0)
