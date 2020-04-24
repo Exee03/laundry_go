@@ -36,25 +36,25 @@ class _DurationWidgetState extends State<DurationWidget> {
             .textTheme
             .caption
             .copyWith(fontSize: 30, fontStyle: FontStyle.normal),
-        bottomLabelText: 'sec',
+        bottomLabelText: 'min',
         mainLabelStyle: Theme.of(context)
             .textTheme
             .headline
             .copyWith(fontSize: 60, fontWeight: FontWeight.w200),
         modifier: (double value) {
           int duration = value.toInt();
-          final increment = 5;
+          final increment = 1;
           final divider = increment / 2;
-          if (duration <= 20 + divider) {
-            duration = 20;
-          } else if (duration > 20 + divider && duration <= 25 + divider) {
-            duration = 25;
-          } else if (duration > 25 + divider && duration <= 30 + divider) {
-            duration = 30;
-          } else if (duration > 30 + divider && duration <= 35 + divider) {
-            duration = 35;
-          } else if (duration > 35 + divider && duration <= 40) {
-            duration = 40;
+          if (duration <= 1 + divider) {
+            duration = 1;
+          } else if (duration > 1 + divider && duration <= 2 + divider) {
+            duration = 2;
+          } else if (duration > 2 + divider && duration <= 3 + divider) {
+            duration = 3;
+          } else if (duration > 3 + divider && duration <= 4 + divider) {
+            duration = 4;
+          } else if (duration > 4 + divider && duration <= 5) {
+            duration = 5;
           }
           selectedDuration = duration;
           return duration.toString();
@@ -105,9 +105,9 @@ class _DurationWidgetState extends State<DurationWidget> {
                     onChangeEnd: (double value) {
                       print(value);
                     },
-                    min: 20,
-                    max: 40,
-                    initialValue: 30,
+                    min: 1,
+                    max: 5,
+                    initialValue: 3,
                   ),
                 ),
               ),

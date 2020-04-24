@@ -109,11 +109,11 @@ class WashingBloc extends Bloc<WashingEvent, WashingState> {
 
   void getTime() {
     timestamp = Timestamp.now().millisecondsSinceEpoch;
-    durationSec = (_machine.duration);
+    durationSec = (_machine.duration * 60);
     startSec = (_machine.timestampStart ~/ 1000);
     endSec = startSec + durationSec;
     remain =
-        (_machine.duration * 1000) - (timestamp - _machine.timestampStart);
+        (_machine.duration * 60000) - (timestamp - _machine.timestampStart);
   }
 
   Stream<WashingState> _mapMachineSelectedToState() async* {
