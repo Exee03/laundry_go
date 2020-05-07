@@ -63,7 +63,7 @@ class AuthenticationBloc
       final isSignedIn = await _userRepository.isSignedIn();
       if (isSignedIn) {
         User user = await _getUserData();
-        (user.token == '') ? getTokenSetup() : null;
+        getTokenSetup();
         yield Authenticated(user);
       } else {
         yield Unauthenticated();
