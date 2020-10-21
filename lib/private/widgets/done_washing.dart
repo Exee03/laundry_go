@@ -37,7 +37,7 @@ class DoneWashingWidget extends StatelessWidget {
               child: Text(
                 "Washing is done!\nPlease unload...",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline.copyWith(
+                style: Theme.of(context).textTheme.headline5.copyWith(
                     fontSize: 35,
                     fontWeight: FontWeight.w300,
                     foreground: Paint()..shader = linearGradient),

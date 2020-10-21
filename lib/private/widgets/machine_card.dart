@@ -94,7 +94,10 @@ class MachineCard extends StatelessWidget {
                                     Align(
                                       alignment: Alignment.center,
                                       child: CountdownFormatted(
-                                        onFinish: () => BlocProvider.of<MachineBloc>(context).add(MachineRefresh()),
+                                        onFinish: () =>
+                                            BlocProvider.of<MachineBloc>(
+                                                    context)
+                                                .add(MachineRefresh()),
                                         duration:
                                             Duration(milliseconds: remain),
                                         builder: (BuildContext context,

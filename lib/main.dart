@@ -1,20 +1,22 @@
 import 'package:custom_splash/custom_splash.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry_go/blocs/authentication/authentication_bloc.dart';
 import 'package:laundry_go/blocs/login/login_bloc.dart';
 import 'package:laundry_go/blocs/app/app_bloc.dart';
-import 'package:laundry_go/blocs/simple_bloc_delegate.dart';
+// import 'package:laundry_go/blocs/simple_bloc_delegate.dart';
 import 'package:laundry_go/private/app.dart';
 import 'package:laundry_go/providers/theme.dart';
 import 'package:laundry_go/public/login_screen.dart';
 import 'package:laundry_go/public/splash_screen.dart';
 import 'package:laundry_go/repositories/user_repository.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  // BlocSupervisor.delegate = SimpleBlocDelegate();
+  await Firebase.initializeApp();
   final UserRepository userRepository = UserRepository();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) => runApp(
@@ -60,7 +62,8 @@ class App extends StatelessWidget {
             } else if (state is Authenticated) {
               return BlocProvider<AppBloc>(
                 create: (context) => AppBloc()..add(HomeScreenTap()),
-                child: AppScreen(user: state.user, userRepository: _userRepository),
+                child: AppScreen(
+                    user: state.user, userRepository: _userRepository),
               );
             }
             return SplashScreen();

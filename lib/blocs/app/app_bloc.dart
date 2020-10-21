@@ -9,8 +9,10 @@ part 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   int lastIndex = 0;
   int currentIndex;
-  @override
-  AppState get initialState => AppInitial();
+
+  AppBloc() : super(AppInitial());
+  // @override
+  // AppState get initialState => AppInitial();
 
   @override
   Stream<AppState> mapEventToState(

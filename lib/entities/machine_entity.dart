@@ -69,12 +69,12 @@ class MachineEntity extends Equatable {
 
   static MachineEntity fromSnapshot(DocumentSnapshot snap) {
     return MachineEntity(
-      snap.data['id'],
-      snap.data['user'],
-      snap.data['isDoorOpened'],
-      snap.data['isUsed'],
-      snap.data['timestampStart'],
-      snap.data['duration'],
+      snap.data()['id'],
+      snap.data()['user'],
+      snap.data()['isDoorOpened'],
+      snap.data()['isUsed'],
+      snap.data()['timestampStart'],
+      snap.data()['duration'],
     );
   }
 

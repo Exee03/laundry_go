@@ -18,15 +18,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     @required UserRepository userRepository,
   })  : assert(userRepository != null),
-        _userRepository = userRepository;
+        _userRepository = userRepository,
+        super(LoginState.empty());
+
+  // LoginState get initialState => LoginState.empty();
 
   @override
-  LoginState get initialState => LoginState.empty();
-
-  @override
-  Stream<LoginState> transformEvents(
-    Stream<LoginEvent> events,
-    Stream<LoginState> Function(LoginEvent event) next,
+  Stream<Transition<LoginEvent, LoginState>> transformEvents(
+    events,
+    transitionFn,
   ) {
     final nonDebounceStream = events.where((event) {
       return (event is! StudentIdChanged && event is! PasswordChanged);
@@ -36,7 +36,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }).debounceTime(Duration(milliseconds: 300));
     return super.transformEvents(
       nonDebounceStream.mergeWith([debounceStream]),
-      next,
+      transitionFn,
     );
   }
 

@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:laundry_go/models/user.dart';
+import 'package:laundry_go/models/user.dart' as app;
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final Firestore _firestore = Firestore.instance;
-  User _user;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  app.User _user;
 
-  Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged.map(
-        (FirebaseUser user) => user?.uid,
+  Stream<String> get onAuthStateChanged => _firebaseAuth.authStateChanges().map(
+        (User user) => user?.uid,
       );
 
   Future<String> createUserWithEmailAndPassword(
       {String name, int studentId, String password}) async {
     final currentUser = await _firebaseAuth.createUserWithEmailAndPassword(
         email: studentId.toString() + '@laundry.go', password: password);
-    saveUserData(User(
+    saveUserData(app.User(
       uid: currentUser.user.uid,
       name: name,
       studentId: studentId,
@@ -31,20 +31,19 @@ class UserRepository {
   }
 
   Future<bool> isSignedIn() async {
-    final currentUser = await _firebaseAuth.currentUser();
+    final currentUser = await _firebaseAuth.currentUser;
     return currentUser != null;
   }
 
-  Future<FirebaseUser> getFirebaseUser() async {
-    FirebaseUser userInfo = await _firebaseAuth.currentUser();
+  Future<User> getFirebaseUser() async {
+    User userInfo = await _firebaseAuth.currentUser;
     return userInfo;
   }
 
-  Future<User> getCurrentUser() async {
-    DocumentReference ref = _firestore
-        .collection('users')
-        .document((await this.getFirebaseUser()).uid);
-    _user = User.fromSnapshot(await ref.get());
+  Future<app.User> getCurrentUser() async {
+    DocumentReference ref =
+        _firestore.collection('users').doc((await this.getFirebaseUser()).uid);
+    _user = app.User.fromSnapshot(await ref.get());
     return _user;
   }
 
@@ -52,10 +51,10 @@ class UserRepository {
     return _firebaseAuth.signOut();
   }
 
-  void saveUserData(User user) async {
-    DocumentReference ref = _firestore.collection('users').document(user.uid);
+  void saveUserData(app.User user) async {
+    DocumentReference ref = _firestore.collection('users').doc(user.uid);
     _user = user;
-    return ref.setData(user.toEntity().toDocument(), merge: true);
+    return ref.set(user.toEntity().toDocument(), SetOptions(merge: true));
     // return ref.setData({
     //   'uid': user.uid,
     //   'email': user.email,
@@ -66,5 +65,5 @@ class UserRepository {
     // }, merge: true);
   }
 
-  User get user => _user;
+  app.User get user => _user;
 }

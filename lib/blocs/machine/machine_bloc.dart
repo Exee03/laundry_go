@@ -18,15 +18,17 @@ class MachineBloc extends Bloc<MachineEvent, MachineState> {
   List<Machine> _machines = [];
   StreamSubscription _streamSubscription;
 
-  MachineBloc({@required MachineRepository machineRepository, @required User user})
+  MachineBloc(
+      {@required MachineRepository machineRepository, @required User user})
       : assert(machineRepository != null, user != null),
         _machineRepository = machineRepository,
-        _user = user;
+        _user = user,
+        super(MachineLoading());
 
   List<Machine> get machines => _machines;
 
-  @override
-  MachineState get initialState => MachineLoading();
+  // @override
+  // MachineState get initialState => MachineLoading();
 
   @override
   Stream<MachineState> mapEventToState(

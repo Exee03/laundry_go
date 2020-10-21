@@ -36,10 +36,11 @@ class WashingBloc extends Bloc<WashingEvent, WashingState> {
       {@required MachineRepository machineRepository, @required User user})
       : assert(machineRepository != null, user != null),
         _machineRepository = machineRepository,
-        _user = user;
+        _user = user,
+        super(WashingLoading());
 
-  @override
-  WashingState get initialState => WashingLoading();
+  // @override
+  // WashingState get initialState => WashingLoading();
 
   @override
   Stream<WashingState> mapEventToState(

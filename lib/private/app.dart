@@ -125,14 +125,14 @@ class _AppScreenState extends State<AppScreen> {
       key: _innerDrawerKey,
       onTapClose: true,
       tapScaffoldEnabled: true,
-      leftOffset: 0.4,
-      rightOffset: 0.4,
+      // leftOffset: 0.4,
+      // rightOffset: 0.4,
       swipe: true,
       boxShadow: _direction == InnerDrawerDirection.start &&
               _animationType == InnerDrawerAnimation.linear
           ? []
           : null,
-      colorTransition: Colors.black54,
+      // colorTransition: Colors.black54,
       leftAnimationType: InnerDrawerAnimation.quadratic,
       leftChild: BlocListener<AppBloc, AppState>(
         listener: (context, state) {
